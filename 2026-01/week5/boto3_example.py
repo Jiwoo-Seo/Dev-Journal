@@ -2,7 +2,7 @@
 Boto3를 사용하여 S3(MinIO)에서 Parquet 파일을 메모리로 로드하여
 학습(train)과 추론(inference)을 수행하는 예제
 
-회사의 get_s3_route(), train(), inference() 함수가 있다고 가정
+get_s3_route(), train(), inference() 함수가 있다고 가정
 """
 
 import boto3
@@ -122,66 +122,6 @@ class S3ParquetHandler:
 
 
 # ============================================================================
-# 회사 함수 (가정: 이미 구현되어 있음)
-# ============================================================================
-
-def get_s3_route(file_sno: str, filetype: int) -> str:
-    """
-    회사의 S3 경로 생성 함수 (실제로는 회사 코드베이스에 있음)
-    
-    Args:
-        file_sno: 파일 시리얼 번호
-        filetype: 파일 타입 (1: train, 2: test, etc.)
-        
-    Returns:
-        S3 경로 (예: "data/file_12345_1.parquet")
-    """
-    file_type_map = {
-        1: "train",
-        2: "test",
-        3: "validation"
-    }
-    type_name = file_type_map.get(filetype, "unknown")
-    return f"data/{type_name}/file_{file_sno}_{filetype}.parquet"
-
-
-def train(file_sno_list: list[str] | str):
-    """
-    모델 학습 함수 (회사 구현 함수라고 가정)
-    
-    Args:
-        file_sno_list: 파일 시리얼 번호 또는 리스트
-    
-    실제 구현에서는 머신러닝 모델 학습 로직이 포함됨
-    """
-    # 단일 문자열을 리스트로 변환
-    if isinstance(file_sno_list, str):
-        file_sno_list = [file_sno_list]
-    
-    logger.info(f"[TRAIN] 파일 ID {file_sno_list}로 학습 시작")
-    # 실제 학습 로직
-    logger.info(f"[TRAIN] 파일 ID {file_sno_list} 학습 완료")
-
-
-def inference(file_sno_list: list[str] | str):
-    """
-    모델 추론 함수 (회사 구현 함수라고 가정)
-    
-    Args:
-        file_sno_list: 파일 시리얼 번호 또는 리스트
-    
-    실제 구현에서는 머신러닝 모델 추론 로직이 포함됨
-    """
-    # 단일 문자열을 리스트로 변환
-    if isinstance(file_sno_list, str):
-        file_sno_list = [file_sno_list]
-    
-    logger.info(f"[INFERENCE] 파일 ID {file_sno_list}로 추론 시작")
-    # 실제 추론 로직
-    logger.info(f"[INFERENCE] 파일 ID {file_sno_list} 추론 완료")
-
-
-# ============================================================================
 # 통합 함수
 # ============================================================================
 
@@ -200,10 +140,6 @@ def process_ml_pipeline(file_sno_list: list[str] | str, filetype: int = 1, use_c
     # 단일 문자열을 리스트로 변환
     if isinstance(file_sno_list, str):
         file_sno_list = [file_sno_list]
-    
-    logger.info("=" * 60)
-    logger.info(f"ML 파이프라인 시작: {len(file_sno_list)}개 파일, filetype={filetype}")
-    logger.info("=" * 60)
     
     # S3 핸들러 초기화
     handler = S3ParquetHandler()
